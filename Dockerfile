@@ -1,19 +1,15 @@
 FROM alpine:3.4
 
 RUN echo "@testing http://dl-4.alpinelinux.org/alpine/edge/testing" | tee -a /etc/apk/repositories
+RUN echo "http://dl-5.alpinelinux.org/alpine/edge/main/" | tee -a /etc/apk/repositories
 
 RUN apk update && \
-  apk add \
-    ca-certificates \
-    nodejs \
-    mono@testing \
-    python2 && \
-  rm -rf \
-    /var/cache/apk/*
+  apk --no-cache add wget ca-certificates nodejs mono@testing && \
+  cert-sync /etc/ssl/certs/ca-certificates.crt
 
 RUN mkdir -p /usr/lib/nuget && \
   wget \
-    https://dist.nuget.org/win-x86-commandline/v3.5.0/nuget.exe \
+    https://dist.nuget.org/win-x86-commandline/v3.5.0/NuGet.exe \
     -O /usr/lib/nuget/NuGet.exe
 
 WORKDIR /node
