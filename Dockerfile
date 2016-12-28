@@ -1,4 +1,4 @@
-FROM alpine:3.3
+FROM alpine:3.4
 
 RUN echo "@testing http://dl-4.alpinelinux.org/alpine/edge/testing" | tee -a /etc/apk/repositories
 
@@ -12,7 +12,7 @@ RUN apk update && \
 
 RUN mkdir -p /usr/lib/nuget && \
   wget \
-    https://dist.nuget.org/win-x86-commandline/v2.8.6/nuget.exe \
+    https://dist.nuget.org/win-x86-commandline/v3.5.0/nuget.exe \
     -O /usr/lib/nuget/NuGet.exe
 
 WORKDIR /node

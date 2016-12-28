@@ -5,32 +5,28 @@ build:
     - make test
 
 publish:
-  coverage:
-    # Must match parts of the absolute path
-    include: drone-nuget/coverage/lcov.info
+  # coverage:
+  #   # Must match parts of the absolute path
+  #   include: drone-nuget/coverage/lcov.info
+  #   when:
+  #     branch: master
+  docker:
+    registry: registry.cd.pf-labs.net
+    repo: drone-plugins/nuget
+    file: Dockerfile
+    email: "dev@peoplefluent.com"
+    tag:
+      - latest
+      - "0.0.$$BUILD_NUMBER"
+      - "$${COMMIT:0:9}"
     when:
       branch: master
-  docker:
-    username: $$DOCKER_USER
-    password: $$DOCKER_PASS
-    email: $$DOCKER_EMAIL
-    repo: plugins/drone-nuget
-    tag: latest
-    when:
-      branch: master
-  docker:
-    username: $$DOCKER_USER
-    password: $$DOCKER_PASS
-    email: $$DOCKER_EMAIL
-    repo: plugins/drone-nuget
-    tag: develop
-    when:
-      branch: develop
 
-plugin:
-  name: NuGet
-  desc: Publish files and artifacts to NuGet repository
-  type: publish
-  image: plugins/drone-nuget
-  labels:
-    - nuget
+# The below section is used to advertise the plugin on the drone website
+# plugin:
+#   name: NuGet
+#   desc: Publish files and artifacts to NuGet repository
+#   type: publish
+#   image: plugins/drone-nuget
+#   labels:
+#     - nuget
